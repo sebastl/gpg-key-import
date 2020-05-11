@@ -1,6 +1,8 @@
 ---
 gpg_user: "username"
+gpg_system_user: "yes"
 gpg_group: "groupname"
+gpg_system_group: "yes"
 
 gpg_email: "username@email"
 

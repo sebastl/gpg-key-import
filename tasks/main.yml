@@ -3,15 +3,15 @@
 - name: create system group
   group:
     name: "{{ gpg_group }}"
-    system: True
-    state: "present"
+    system: "{{ 'yes' if gpg_system_group else 'no' }}"
+    state: present
 
 - name: create system user
   user:
     name: "{{ gpg_user }}"
     group: "{{ gpg_group }}"
     home: "{{ gpg_home }}"
-    system: yes
+    system: "{{ 'yes' if gpg_system_user else 'no' }}"
 
 - name: check public key
   become_user: "{{ gpg_user }}"

@@ -24,7 +24,9 @@ Before running the role you should update `defaults/main.yml` with your personal
 Role Variables
 --------------
 `gpg_user`: Name of the user <br />
+`gpg_system_user`: Whether the user shall be a system user instead of a regular user (default: yes) <br />
 `gpg_group`: Name of the group <br />
+`gpg_system_group`: Whether the group shall be a system group instead of a regular group (default: yes) <br />
 `gpg_email`: Email of the gpg key <br />
 `gpg_home`: Where the GPG home directory will be located <br />
 `gpg_pubkey_path`: Custom path to GPG public key <br />

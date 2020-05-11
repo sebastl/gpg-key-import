@@ -20,12 +20,12 @@
   changed_when: false
   register: pubkey_imported
 
-- name: check signing key
+- name: check secret key
   become_user: "{{ gpg_user }}"
   shell: gpg --list-secret-keys
   ignore_errors: true
   changed_when: false
-  register: signkey_imported
+  register: seckey_imported
 
 - name: check ownertrust
   become_user: "{{ gpg_user }}"
@@ -46,30 +46,30 @@
 
     - name: copy gpg keys
       template:
-        src: "files/{{ item }}"
-        dest: "{{ tmp_dir }}/{{ item }}"
+        src: "{{ item }}"
+        dest: "{{ tmp_dir }}/{{ item | basename }}"
         owner: "{{ gpg_user }}"
         group: "{{ gpg_group }}"
         mode: "0600"
       with_items:
-        - public.key
-        - signing.key
-        - ultimate.trust
-  when: (signkey_imported.stdout == "") and (pubkey_imported.stdout == "") and (":6:" not in trust_imported.stdout)
+        - "{{ gpg_pubkey_path }}"
+        - "{{ gpg_seckey_path }}"
+        - "{{ gpg_trustfile_path }}"
+  when: (seckey_imported.stdout == "") and (pubkey_imported.stdout == "") and (":6:" not in trust_imported.stdout)
 
 - name: import public key
   become_user: "{{ gpg_user }}"
-  shell: gpg --import {{ tmp_dir }}/public.key
+  shell: gpg --import "{{ tmp_dir }}/{{ gpg_pubkey_path | basename }}"
   when: gpg_email not in pubkey_imported.stdout
 
-- name: import signing key
+- name: import secret key
   become_user: "{{ gpg_user }}"
-  shell: gpg --import {{ tmp_dir }}/signing.key
-  when: gpg_email not in signkey_imported.stdout
+  shell: gpg --import "{{ tmp_dir }}/{{ gpg_seckey_path | basename }}"
+  when: gpg_email not in seckey_imported.stdout
 
 - name: import ownertrust
   become_user: "{{ gpg_user }}"
-  shell: gpg --import-ownertrust {{ tmp_dir }}/ultimate.trust
+  shell: gpg --import-ownertrust "{{ tmp_dir }}/{{ gpg_trustfile_path | basename }}"
   when: (":6:" not in trust_imported.stdout)
 
 - name: clean up directory and keys

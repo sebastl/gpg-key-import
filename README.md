@@ -17,16 +17,19 @@ Before running the role you should update `defaults/main.yml` with your personal
 ### How to add the gpg keys
 - public.key -> `gpg -a --export username@email > files/public.key`
 
-- signing.key -> `gpg -a --export-secret-keys username@email > files/signing.key`
+- secret.key -> `gpg -a --export-secret-keys username@email > files/secret.key`
 
-- ultimate.trust -> `gpg --export-ownertrust > files/ultimate.trust`
+- ownertrust.txt -> `gpg --export-ownertrust > files/ownertrust.txt`
 
 Role Variables
 --------------
 `gpg_user`: Name of the user <br />
 `gpg_group`: Name of the group <br />
 `gpg_email`: Email of the gpg key <br />
-`gpg_home`: Where GPG will be located
+`gpg_home`: Where the GPG home directory will be located <br />
+`gpg_pubkey_path`: Custom path to GPG public key <br />
+`gpg_seckey_path`: Custom path to GPG private key <br />
+`gpg_trustfile_path`: Custom path to GPG ownertrust file
 
 Dependencies
 ------------

@@ -5,4 +5,8 @@ gpg_group: "groupname"
 gpg_email: "username@email"
 
 gpg_home: "{{ lookup('env','HOME') }}"
-tmp_dir: "{{ gpg_home }}/tmp }}"
+tmp_dir: "{{ gpg_home }}/tmp"
+
+gpg_pubkey_path: "files/public.key"
+gpg_seckey_path: "files/secret.key"
+gpg_trustfile_path: "files/ownertrust.txt"

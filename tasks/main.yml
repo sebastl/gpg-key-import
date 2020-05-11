@@ -64,7 +64,7 @@
 
 - name: import secret key
   become_user: "{{ gpg_user }}"
-  shell: gpg --import "{{ tmp_dir }}/{{ gpg_seckey_path | basename }}"
+  shell: gpg --batch --pinentry-mode loopback --import "{{ tmp_dir }}/{{ gpg_seckey_path | basename }}"
   when: gpg_email not in seckey_imported.stdout
 
 - name: import ownertrust

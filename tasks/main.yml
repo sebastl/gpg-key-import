@@ -55,7 +55,7 @@
         - "{{ gpg_pubkey_path }}"
         - "{{ gpg_seckey_path }}"
         - "{{ gpg_trustfile_path }}"
-  when: (seckey_imported.stdout == "") and (pubkey_imported.stdout == "") and (":6:" not in trust_imported.stdout)
+  when: (gpg_email not in seckey_imported.stdout) or (gpg_email not in pubkey_imported.stdout) or (":6:" not in trust_imported.stdout)
 
 - name: import public key
   become_user: "{{ gpg_user }}"
